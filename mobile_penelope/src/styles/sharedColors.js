@@ -1,0 +1,12 @@
+const lightColors = {
+  mainBackground: "#d1f6d7",
+  header: "#57a466",
+  fontColor: "#0f0f0f",
+};
+const darkColors = {
+  mainBackground: "#111616",
+  header: "#101f12",
+  fontColor: "#f0f0f0",
+};
+
+export {lightColors, darkColors};
