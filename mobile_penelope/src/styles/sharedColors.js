@@ -1,6 +1,6 @@
 const lightColors = {
   mainBackground: "#d1f6d7",
-  header: "#57a466",
+  header: "#77c486",
   fontColor: "#0f0f0f",
 };
 const darkColors = {

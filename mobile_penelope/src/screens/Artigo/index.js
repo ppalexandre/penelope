@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/core";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Carousel, { Pagination } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
-import { Waveform, type IWaveformRef, } from '@simform_solutions/react-native-audio-waveform';
+import { Waveform } from '@simform_solutions/react-native-audio-waveform';
 
 import api from '../../../services/api';
 import url from "../../../services/url";
@@ -49,6 +49,9 @@ const Artigo = ({route}) => {
   const handleCarouselProgress = (index: number) => {
     carouselProgress.value = index;
   }
+
+  const path = '';
+  const cantoRef = useRef(null);
 
   const [passaroImagens, setPassaroImagens] = useState([]);
   const [nomePopular, setNomePopular] = useState("");

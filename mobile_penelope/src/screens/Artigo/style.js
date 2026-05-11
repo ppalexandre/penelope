@@ -53,6 +53,8 @@ function setThemeColors(theme){
       color: headerFontColor,
       fontSize: 23,
       fontWeight: "bold",
+      textWrap: "nowrap",
+      textOverflow: "ellipsis",
     },
 
     headerButton:{

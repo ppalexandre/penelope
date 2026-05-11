@@ -8,10 +8,10 @@ function setThemeColors(theme){
   if (theme === "light"){
     var mainBackground = lightColors.mainBackground;
     var header = lightColors.header;
-    var subHeader = "#7fdf9f";
+    var subHeader = "#d1f6d7";
     var fontColor = lightColors.fontColor;
-    var rowOdd = '#a0d0c0';
-    var rowEven = '#b0e0d0';
+    var rowOdd = '#d0f0d0';
+    var rowEven = '#d4ffd4';
   }
   // Dark
   else {
@@ -20,13 +20,7 @@ function setThemeColors(theme){
     var subHeader = "#123012";
     var fontColor = darkColors.fontColor;
     var rowOdd = '#194019';
-    var rowEven = '#225222';
-    // var mainBackground = "#193919";
-    // var header = "#102010";
-    // var subHeader = "#123012";
-    // var fontColor = "#f0f0f0";
-    // var rowOdd = '#194019';
-    // var rowEven = '#225222';
+    var rowEven = '#153b15';
   }
 
   return StyleSheet.create({
@@ -89,7 +83,7 @@ function setThemeColors(theme){
       width: "100%",
       height: 50,
       backgroundColor: subHeader,
-      boxShadow: "3px 10px 20px #00000077",
+      boxShadow: "3px 5px 10px #00000055",
     },
 
     passarosExibidos:{
@@ -105,6 +99,7 @@ function setThemeColors(theme){
 
     listScrollView:{
       width: "100%",
+      minHeight: "100%",
     },
 
     listImagePreview:{
@@ -117,9 +112,14 @@ function setThemeColors(theme){
     },
 
     listRow:{
-      width: "100%",
+      borderRadius: 10,
+      width: "95%",
+      marginTop: 8,
       flex: 1,
       flexDirection: "row",
+      justifySelf: "center",
+      alignSelf: "center",
+      boxShadow: "3px 5px 10px #00000055",
     },
 
     listPassaroInfo:{
@@ -129,10 +129,13 @@ function setThemeColors(theme){
     },
 
     listNomePopularText:{
-      fontSize: 25,
-      marginTop: 5,
+      marginTop: 7,
       marginLeft: 2,
+      fontSize: 23,
       color: fontColor,
+      textWrap: "nowrap",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
     },
 
     listMiscInfo:{
@@ -144,6 +147,7 @@ function setThemeColors(theme){
     listNomeBinomialText:{
       fontSize: 18,
       color: fontColor,
+      textOverflow: "ellipsis",
     },
 
     listEstadoConservacaoBadge:{
@@ -179,12 +183,10 @@ function setThemeColors(theme){
 
     rowEven:{
       backgroundColor: rowEven,
-      boxShadow: "5px 5px 20px #00000077",
     },
 
     rowOdd:{
       backgroundColor: rowOdd,
-      boxShadow: "5px 5px 20px #00000077",
     },
 
     gridView:{
@@ -226,13 +228,13 @@ function setThemeColors(theme){
       marginTop: 5,
       marginLeft: 2,
       fontSize: 25,
-      color: fontColor,
+      color: "#f0f0f0",
       textShadow: "3px 2px 5px #000000aa",
     },
 
     gridNomeBinomialText:{
       fontSize: 18,
-      color: fontColor,
+      color: "#f0f0f0",
       textShadow: "3px 2px 5px #000000aa",
     },
 
@@ -276,7 +278,7 @@ function setThemeColors(theme){
     gridEnvergaduraText:{
       margin: 5,
       fontSize: 16,
-      color: fontColor,
+      color: "#f0f0f0",
       alignSelf: "flex-end",
       textShadow: "3px 5px 5px #00000088",
     },
