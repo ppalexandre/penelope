@@ -31,6 +31,16 @@ const Gravacao = () => {
     }
   });
 
+  useEffect(() => {
+    const theme = Appearance.getColorScheme();
+    if (theme === "light"){
+      setStyles(lightTheme);
+    }
+    else {
+      setStyles(darkTheme);
+    }
+  }, []);
+
   return (
     <View style={styles.mainBackground}>
       <ScrollView>

@@ -13,6 +13,7 @@ import {
   BackHandler,
 } from "react-native";
 import { useNavigation } from "@react-navigation/core";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Carousel, { Pagination } from "react-native-reanimated-carousel";
 import { useSharedValue } from "react-native-reanimated";
@@ -67,9 +68,6 @@ const Artigo = ({route}) => {
       const artigo = request.data.artigo;
 
       let imagens = Object.values(artigo.img_passaro);
-      for (let i = 0; i < imagens.length; i++){
-        imagens[i] = url + imagens[i];
-      }
       setPassaroImagens(imagens);
 
       setNomePopular(artigo.nome_popular);
@@ -143,6 +141,16 @@ const Artigo = ({route}) => {
   }
 
   useEffect(() => {
+    const theme = Appearance.getColorScheme();
+    if (theme === "light"){
+      setStyles(lightTheme);
+    }
+    else {
+      setStyles(darkTheme);
+    }
+  }, []);
+
+  useEffect(() => {
     updatePassaroArtigo();
   }, []);
 
@@ -162,7 +170,10 @@ const Artigo = ({route}) => {
 
   return (
     <View style={styles.mainView}>
-      <View style={styles.header}>
+      <SafeAreaView 
+        style={styles.header}
+        edges={["top", "right", "left"]}
+      >
         <TouchableOpacity
           style={styles.headerButton}
           onPress={() => {navigation.goBack()}}
@@ -178,7 +189,7 @@ const Artigo = ({route}) => {
         >
           <Ionicons name="star" size={40} style={styles.headerVectorIcon} />
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
 
       <ScrollView>
         <View style={styles.passaroCarouselContainer}>
@@ -191,8 +202,7 @@ const Artigo = ({route}) => {
             data={passaroImagens}
             onProgressChange={(_, absoluteProgress) => {handleCarouselProgress(Math.round(absoluteProgress));}}
             renderItem={({ item }) => (
-              <ImageBackground source={{ uri: item }} imageStyle={styles.passaroCarouselImage}>
-              </ImageBackground>
+              <Image source={{uri: url + item}} style={styles.passaroCarouselImage} />
             )}
           />
         </View>

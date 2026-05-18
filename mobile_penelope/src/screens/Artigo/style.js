@@ -42,8 +42,8 @@ function setThemeColors(theme){
       flexDirection: "row",
       alignItems: "center",
       alignContent: "space-between",
+      height: 80,
       width: "100%",
-      height: 70,
       boxShadow: "3px 3px 20px #00000077",
     },
 
@@ -142,8 +142,6 @@ function setThemeColors(theme){
     estadoConservacaoBadge:{
       width: 55,
       height: 45,
-      padding: 5,
-      paddingTop: 6,
       marginLeft: 3,
       marginBottom: 8,
       borderRadius: "25%",

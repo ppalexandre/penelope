@@ -19,13 +19,14 @@ function setThemeColors(theme){
     container:{
       flexDirection: 'row',
       justifyContent: 'space-around',
-      padding: 8,
       backgroundColor: mainBackground,
+      paddingTop: 15,
     },
 
     screenIcon:{
       justifyContent: 'center',
       alignSelf: 'center',
+      marginBottom: 20,
       color: fontColor,
     },
 
@@ -37,7 +38,6 @@ function setThemeColors(theme){
       fontSize: 13,
       color: fontColor,
       alignSelf: "center",
-      marginTop: 2,
     },
   })
 }

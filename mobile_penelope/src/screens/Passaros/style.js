@@ -33,25 +33,29 @@ function setThemeColors(theme){
       flex: 1,
     },
 
-    topFlexRowHeader:{
+    headerSafeArea:{
+      backgroundColor: header,
+    },
+
+    topHeader:{
       flexDirection: "row",
       alignItems: "space-between",
       justifyContent: "center",
       alignContent: "space-between",
-      paddingTop: 15,
-      paddingBottom: 28,
+      paddingBottom: 15,
       width: "100%",
       height: 70,
       backgroundColor: header,
     },
 
     searchBar:{
-      width: "85%",
+      width: "83%",
       flexDirection: "row",
       height: 45,
       backgroundColor: "#335533aa",
       justifyContent: "center",
       borderRadius: 15,
+      marginTop: 15,
     },
 
     searchBarInput:{
@@ -64,24 +68,25 @@ function setThemeColors(theme){
 
     searchBarIcon:{
       width: "10%",
-      marginTop: 2,
       marginLeft: 5,
       alignSelf: "center",
     },
 
     filterButton:{
       marginLeft: 5,
+      marginTop: 15,
     },
 
     searchButton:{
       marginLeft: 5,
     },
 
-    sortFlexRowHeader:{
+    sortHeader:{
       flexDirection: "row",
       alignItems: "center",
       width: "100%",
       height: 50,
+      paddingRight: 10,
       backgroundColor: subHeader,
       boxShadow: "3px 5px 10px #00000055",
     },
@@ -106,9 +111,9 @@ function setThemeColors(theme){
       width: 64,
       height: 64,
       margin: 5,
-      borderRadius: "10%",
       borderColor: "#ffffff22",
       borderWidth: 1,
+      borderRadius: 10,
     },
 
     listRow:{
@@ -131,7 +136,7 @@ function setThemeColors(theme){
     listNomePopularText:{
       marginTop: 7,
       marginLeft: 2,
-      fontSize: 23,
+      fontSize: 22,
       color: fontColor,
       textWrap: "nowrap",
       textOverflow: "ellipsis",
@@ -153,7 +158,6 @@ function setThemeColors(theme){
     listEstadoConservacaoBadge:{
       width: 25,
       height: 18,
-      padding: 5,
       marginLeft: 7,
       marginTop: 2,
       borderRadius: "15%",
@@ -166,6 +170,7 @@ function setThemeColors(theme){
     listEstadoConservacaoText:{
       color: "#f0f0f0",
       fontWeight: "bold",
+      fontSize: 12,
     },
 
     listEnvergaduraText:{
@@ -199,16 +204,15 @@ function setThemeColors(theme){
     gridItem:{
       width: "1fr",
       aspectRatio: "1 / 1",
-      margin: 5,
     },
 
     gridImage:{
       width: "100%",
       height: "100%",
-      borderRadius: "5%",
       boxShadow: "5px 5px 20px #00000077",
       borderColor: "#ffffff22",
       borderWidth: 1,
+      borderRadius: 15,
     },
 
     gridGradient:{
@@ -220,14 +224,14 @@ function setThemeColors(theme){
 
     gridUpperInfo:{
       width: "100%",
-      height: "80%",
+      height: "70%",
       padding: 2,
     },
 
     gridNomePopularText:{
       marginTop: 5,
       marginLeft: 2,
-      fontSize: 25,
+      fontSize: 22,
       color: "#f0f0f0",
       textShadow: "3px 2px 5px #000000aa",
     },
@@ -247,12 +251,12 @@ function setThemeColors(theme){
 
     gridBottomInfo:{
       width: "100%",
-      height: "20%",
+      height: "30%",
       flexDirection: "row",
     },
 
     gridMiscInfo:{
-      width: "80%",
+      width: "75%",
       height: "100%",
       flexDirection: "row",
     },
@@ -260,7 +264,6 @@ function setThemeColors(theme){
     gridEstadoConservacaoBadge:{
       width: 25,
       height: 18,
-      padding: 5,
       margin: 5,
       borderRadius: "15%",
       justifyContent: "center",
@@ -273,6 +276,7 @@ function setThemeColors(theme){
     gridEstadoConservacaoText:{
       color: "#f0f0f0",
       fontWeight: "bold",
+      fontSize: 12,
     },
 
     gridEnvergaduraText:{
@@ -285,6 +289,10 @@ function setThemeColors(theme){
 
     vectorIcon:{
       color: fontColor,
+    },
+
+    vectorIconLight:{
+      color: darkColors.fontColor,
     },
   })
 }

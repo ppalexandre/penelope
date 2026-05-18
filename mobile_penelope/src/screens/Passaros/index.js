@@ -5,11 +5,13 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  Image,
   ImageBackground,
   RefreshControl,
   Appearance,
 } from "react-native";
+import { Image } from 'expo-image';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SimpleGrid } from 'react-native-super-grid';
 import { useNavigation } from "@react-navigation/core";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
@@ -49,7 +51,7 @@ const Passaros = () => {
   const [filteredPassaroList, setFilteredPassaroList] = useState([]);
   const [passaroListView, setPassaroListView] = useState((<Text></Text>));
   const [passaroListViewStyle, setPassaroListViewStyle] = useState("grid");
-  const [passaroListViewItems, setPassaroListViewItems] = useState([]);
+  const [passaroListViewItems, setPassaroListViewItems] = useState();
   const [passaroCounter, setPassaroCounter] = useState(0);
 
   const onRefresh = () => {
@@ -81,9 +83,8 @@ const Passaros = () => {
   function displayPassaroList(){
     setPassaroCounter(filteredPassaroList.length);
 
-    setPassaroListViewItems([]);
     if (passaroListViewStyle === "list"){
-      passaroListViewItems.push(filteredPassaroList.map((item, index) => (
+      setPassaroListViewItems(filteredPassaroList.map((item, index) => (
         <TouchableOpacity
           key={item.passaro_id}
           style={[
@@ -96,7 +97,7 @@ const Passaros = () => {
             });
           }}
         >
-          <Image style={styles.listImagePreview} source={url + item.img_passaro_preview_url}/>
+          <Image style={styles.listImagePreview} source={{uri: url + item.img_passaro_preview_url}}/>
           <View style={styles.listPassaroInfo}>
 
             <Text style={styles.listNomePopularText}>{item.nome_popular}</Text>
@@ -118,10 +119,9 @@ const Passaros = () => {
           </TouchableOpacity>
         </TouchableOpacity>
       )))
-      setPassaroListView(<View>{passaroListViewItems}</View>);
     }
     else if (passaroListViewStyle === "grid"){
-      passaroListViewItems.push(filteredPassaroList.map((item, index) => (
+      setPassaroListViewItems(filteredPassaroList.map((item, index) => (
         <TouchableOpacity
           key={item.passaro_id}
           onPress={() => {
@@ -129,39 +129,54 @@ const Passaros = () => {
               passaro_id: item.passaro_id
             });
           }}
+          style={styles.gridItem}
         >
-          <View style={styles.gridItem}>
-            <ImageBackground style={styles.gridImage} imageStyle={styles.gridImage} source={url + item.img_passaro_url}>
-              <View style={styles.gridGradient}>
-                <View style={styles.gridUpperInfo}>
-                  <Text style={styles.gridNomePopularText}>{item.nome_popular}</Text>
-                  <Text style={styles.gridNomeBinomialText}>{item.nome_binomial}</Text>
-                </View>
-
-                <View style={styles.gridBottomInfo}>
-                  <View style={styles.gridMiscInfo}>
-                    <View style={[styles.gridEstadoConservacaoBadge, {backgroundColor: estadoConservacaoBadgeColor(item.estado_conservacao)}]}>
-                      <Text style={styles.gridEstadoConservacaoText}>{item.estado_conservacao}</Text>
-                    </View>
-                    <Text style={styles.gridEnvergaduraText}>{item.envergadura_cm} cm</Text>
-                  </View>
-
-                  <TouchableOpacity
-                    style={styles.gridFavoritePassaroButton}
-                    onPress={() => toggleFavoritePassaro(item.passaro_id)}
-                  >
-                    {favoritePassaroIcon(item.passaro_id)}
-                  </TouchableOpacity>
-                </View>
+          <ImageBackground style={styles.gridImage} imageStyle={styles.gridImage} source={{uri: url + item.img_passaro_url}}>
+            <View style={styles.gridGradient}>
+              <View style={styles.gridUpperInfo}>
+                <Text style={styles.gridNomePopularText}>{item.nome_popular}</Text>
+                <Text style={styles.gridNomeBinomialText}>{item.nome_binomial}</Text>
               </View>
 
-            </ImageBackground>
-          </View>
+              <View style={styles.gridBottomInfo}>
+                <View style={styles.gridMiscInfo}>
+                  <View style={[styles.gridEstadoConservacaoBadge, {backgroundColor: estadoConservacaoBadgeColor(item.estado_conservacao)}]}>
+                    <Text style={styles.gridEstadoConservacaoText}>{item.estado_conservacao}</Text>
+                  </View>
+                  <Text style={styles.gridEnvergaduraText}>{item.envergadura_cm} cm</Text>
+                </View>
+
+                <TouchableOpacity
+                  style={styles.gridFavoritePassaroButton}
+                  onPress={() => toggleFavoritePassaro(item.passaro_id)}
+                >
+                  {favoritePassaroIcon(item.passaro_id)}
+                </TouchableOpacity>
+              </View>
+            </View>
+
+          </ImageBackground>
         </TouchableOpacity>
       )))
-      setPassaroListView(<View style={styles.gridView}>{passaroListViewItems}</View>);
     }
   }
+
+  useEffect(() => {
+    if (passaroListViewStyle === "list"){
+      setPassaroListView(<View>{passaroListViewItems}</View>);
+    }
+    else if (passaroListViewStyle === "grid"){
+      setPassaroListView(
+        <SimpleGrid
+          itemDimension={130}
+          maxItemsPerRow={2}
+          spacing={10}
+          data={passaroListViewItems}
+          renderItem={({ item, index }) => (<View>{item}</View>)}
+        />
+      );
+    }
+  }, [passaroListViewItems]);
 
   function estadoConservacaoBadgeColor(estadoConservacao){
     let badgeColor = "";
@@ -194,11 +209,21 @@ const Passaros = () => {
   function favoritePassaroIcon(passaro_id){
     for (let i = 0; i < passaroList.length; i++){
       if (passaroList[i].passaro_id === passaro_id){
-        if (passaroList[i].favorite){
-          return ( <Ionicons name="star" size={40} style={styles.vectorIcon}/> ); 
+        if (passaroListViewStyle === "list"){
+          if (passaroList[i].favorite){
+            return ( <Ionicons name="star" size={40} style={styles.vectorIcon}/> ); 
+          }
+          else{
+            return ( <Ionicons name="star-outline" size={40} style={styles.vectorIcon}/> ); 
+          }
         }
-        else{
-          return ( <Ionicons name="star-outline" size={40} style={styles.vectorIcon}/> ); 
+        else if (passaroListViewStyle === "grid"){
+          if (passaroList[i].favorite){
+            return ( <Ionicons name="star" size={40} style={styles.vectorIconLight}/> ); 
+          }
+          else{
+            return ( <Ionicons name="star-outline" size={40} style={styles.vectorIconLight}/> ); 
+          }
         }
       }
     }
@@ -207,22 +232,22 @@ const Passaros = () => {
   function toggleSortByFavorite(){
     if(sortByFavorite){
       setSortByFavorite(false)
-      setSortByFavoriteIcon((<Ionicons name="star-outline" size={30} style={styles.vectorIcon}/>));
+      setSortByFavoriteIcon((<Ionicons name="star-outline" size={25} style={styles.vectorIcon}/>));
     }
     else{
       setSortByFavorite(true)
-      setSortByFavoriteIcon((<Ionicons name="star" size={30} style={styles.vectorIcon}/>));
+      setSortByFavoriteIcon((<Ionicons name="star" size={25} style={styles.vectorIcon}/>));
     }
   }
 
   function toggleAscending(){
     if(sortAscending){
       setSortAscending(false)
-      setSortByAscendingIcon((<Ionicons name="caret-down" size={30} style={styles.vectorIcon}/>));
+      setSortByAscendingIcon((<Ionicons name="caret-down" size={25} style={styles.vectorIcon}/>));
     }
     else{
       setSortAscending(true)
-      setSortByAscendingIcon((<Ionicons name="caret-up" size={30} style={styles.vectorIcon}/>));
+      setSortByAscendingIcon((<Ionicons name="caret-up" size={25} style={styles.vectorIcon}/>));
     }
   }
 
@@ -233,7 +258,7 @@ const Passaros = () => {
     }
     else if (passaroListViewStyle === "grid"){
       setPassaroListViewStyle("list");
-      setToggleGridViewIcon((<MaterialIcons name="list" size={30} style={styles.vectorIcon}/>));
+      setToggleGridViewIcon((<MaterialIcons name="list" size={25} style={styles.vectorIcon}/>));
     }
   }
 
@@ -246,6 +271,15 @@ const Passaros = () => {
     }));
   }
 
+  useEffect(() => {
+    const theme = Appearance.getColorScheme();
+    if (theme === "light"){
+      setStyles(lightTheme);
+    }
+    else {
+      setStyles(darkTheme);
+    }
+  }, []);
 
   useEffect(() => {
     updatePassaroList();
@@ -302,70 +336,77 @@ const Passaros = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
         }
       >
-        <View style={styles.topFlexRowHeader}>
-          <View style={styles.searchBar}>
-            <View style={styles.searchBarIcon}>
-              <MaterialIcons name="search" size={30} style={styles.vectorIcon} />
+        <SafeAreaView
+          style={styles.headerSafeArea}
+          edges={["top", "right", "left"]}
+        >
+          <View 
+            style={styles.topHeader}
+          >
+            <View style={styles.searchBar}>
+              <View style={styles.searchBarIcon}>
+                <MaterialIcons name="search" size={30} style={styles.vectorIcon} />
+              </View>
+              <TextInput
+                placeholder="Pesquisar por nome"
+                onChangeText={setSearchText}
+                value={searchText}
+                style={styles.searchBarInput}
+              />
             </View>
-            <TextInput
-              placeholder="Pesquisar por nome"
-              onChangeText={setSearchText}
-              value={searchText}
-              style={styles.searchBarInput}
-            />
+
+            <TouchableOpacity
+              style={styles.filterButton}
+              onPress={() => {
+              }}
+            >
+              <MaterialIcons name="filter-alt" size={40} style={styles.vectorIcon} />
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            style={styles.filterButton}
-            onPress={() => {
-            }}
-          >
-            <MaterialIcons name="filter-alt" size={40} style={styles.vectorIcon} />
-          </TouchableOpacity>
-        </View>
+          <View style={styles.sortHeader}>
+            <Text style={styles.passarosExibidos}>Pássaros exibidos: {passaroCounter}</Text>
 
-        <View style={styles.sortFlexRowHeader}>
-          <Text style={styles.passarosExibidos}>Pássaros exibidos: {passaroCounter}</Text>
+            <TouchableOpacity
+              style={styles.sortByButton}
+              onPress={toggleSortByFavorite}
+            >
+              {sortByFavoriteIcon}
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.sortByButton}
-            onPress={toggleSortByFavorite}
-          >
-            {sortByFavoriteIcon}
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.sortByButton}
+              onPress={toggleAscending}
+            >
+              {sortByAscendingIcon}
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.sortByButton}
-            onPress={toggleAscending}
-          >
-            {sortByAscendingIcon}
-          </TouchableOpacity>
+            <SelectPopup
+              options={[
+                { label: "Nome Popular", value: "nome_popular" },
+                { label: "Nome Binomial", value: "nome_binomial" },
+                { label: "Estado de Conservação", value: "estado_conservacao" },
+                { label: "Envergadura", value: "envergadura_cm" },
+              ]}
+              variable={sortByType}
+              setVariable={setSortByType}
+              ref={selectPopupRef}
+            />
+            <TouchableOpacity
+              style={styles.sortByButton}
+              onPress={() => { selectPopupRef.current.open() }}
+            >
+              <MaterialIcons name="sort-by-alpha" size={30} style={styles.vectorIcon}/>
+            </TouchableOpacity>
 
-          <SelectPopup
-            options={[
-              { label: "Nome Popular", value: "nome_popular" },
-              { label: "Nome Binomial", value: "nome_binomial" },
-              { label: "Estado de Conservação", value: "estado_conservacao" },
-              { label: "Envergadura", value: "envergadura_cm" },
-            ]}
-            variable={sortByType}
-            setVariable={setSortByType}
-            ref={selectPopupRef}
-          />
-          <TouchableOpacity
-            style={styles.sortByButton}
-            onPress={() => { selectPopupRef.current.open() }}
-          >
-            <MaterialIcons name="sort-by-alpha" size={30} style={styles.vectorIcon}/>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.sortByButton}
-            onPress={toggleGridView}
-          >
-            {toggleGridViewIcon}
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.sortByButton}
+              onPress={toggleGridView}
+            >
+              {toggleGridViewIcon}
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
 
         <ScrollView style={styles.listScrollView}>
           {passaroListView}
