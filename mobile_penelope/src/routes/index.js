@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import CustomBottomTabs from '../components/CustomBottomTabs';
 
 import Artigo from '../screens/Artigo';
+import AvistamentoLista from '../screens/AvistamentoLista';
 import Avistamentos from '../screens/Avistamentos';
 import Configuracao from '../screens/Configuracao';
 import Gravacao from '../screens/Gravacao';
@@ -23,6 +24,7 @@ function PassarosNavigation(){
       }}>
       <PassarosStack.Screen name="Passaros" component={Passaros} />
       <PassarosStack.Screen name="Artigo" component={Artigo} />
+      <PassarosStack.Screen name="AvistamentoLista" component={AvistamentoLista} />
     </PassarosStack.Navigator>
   )
 }

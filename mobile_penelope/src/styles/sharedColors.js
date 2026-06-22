@@ -6,7 +6,7 @@ const lightColors = {
 const darkColors = {
   mainBackground: "#111616",
   header: "#101f12",
-  fontColor: "#f0f0f0",
+  fontColor: "#e0e0e0",
 };
 
 export {lightColors, darkColors};

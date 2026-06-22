@@ -22,7 +22,8 @@
     },
     "web": {},
     "plugins": [
-      "expo-image"
+      "expo-image",
+      "expo-audio"
     ]
   }
 }

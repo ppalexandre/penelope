@@ -20,6 +20,7 @@ import url from "../../../services/url";
 import { darkTheme, lightTheme } from "./style";
 
 import SelectPopup from "../../components/SelectPopup"
+import Load from "../../components/Load"
 
 const Passaros = () => {
   const navigation = useNavigation();
@@ -40,11 +41,11 @@ const Passaros = () => {
   const [searchText, setSearchText] = useState("");
   const [searchFilter, setSearchFilter] = useState([]);
   const [sortAscending, setSortAscending] = useState(true);
-  const [sortByAscendingIcon, setSortByAscendingIcon] = useState((<Ionicons name="caret-up" size={30} style={styles.vectorIcon}/>));
+  const [sortByAscendingIcon, setSortByAscendingIcon] = useState("caret-up");
   const [sortByFavorite, setSortByFavorite] = useState(false);
-  const [sortByFavoriteIcon, setSortByFavoriteIcon] = useState((<Ionicons name="star-outline" size={30} style={styles.vectorIcon}/>));
+  const [sortByFavoriteIcon, setSortByFavoriteIcon] = useState("star-outline");
   const [sortByType, setSortByType] = useState("nome_popular");
-  const [toggleGridViewIcon, setToggleGridViewIcon] = useState((<MaterialIcons name="grid-view" size={30} style={styles.vectorIcon}/>));
+  const [toggleGridViewIcon, setToggleGridViewIcon] = useState("grid-view");
 
   const [passaroList, setPassaroList] = useState([]);
   const [favoritePassaroList, setFavoritePassaroList] = useState([]);
@@ -161,23 +162,6 @@ const Passaros = () => {
     }
   }
 
-  useEffect(() => {
-    if (passaroListViewStyle === "list"){
-      setPassaroListView(<View>{passaroListViewItems}</View>);
-    }
-    else if (passaroListViewStyle === "grid"){
-      setPassaroListView(
-        <SimpleGrid
-          itemDimension={130}
-          maxItemsPerRow={2}
-          spacing={10}
-          data={passaroListViewItems}
-          renderItem={({ item, index }) => (<View>{item}</View>)}
-        />
-      );
-    }
-  }, [passaroListViewItems]);
-
   function estadoConservacaoBadgeColor(estadoConservacao){
     let badgeColor = "";
     switch (estadoConservacao){
@@ -232,33 +216,33 @@ const Passaros = () => {
   function toggleSortByFavorite(){
     if(sortByFavorite){
       setSortByFavorite(false)
-      setSortByFavoriteIcon((<Ionicons name="star-outline" size={25} style={styles.vectorIcon}/>));
+      setSortByFavoriteIcon("star-outline");
     }
     else{
       setSortByFavorite(true)
-      setSortByFavoriteIcon((<Ionicons name="star" size={25} style={styles.vectorIcon}/>));
+      setSortByFavoriteIcon("star");
     }
   }
 
   function toggleAscending(){
     if(sortAscending){
       setSortAscending(false)
-      setSortByAscendingIcon((<Ionicons name="caret-down" size={25} style={styles.vectorIcon}/>));
+      setSortByAscendingIcon("caret-down");
     }
     else{
       setSortAscending(true)
-      setSortByAscendingIcon((<Ionicons name="caret-up" size={25} style={styles.vectorIcon}/>));
+      setSortByAscendingIcon("caret-up");
     }
   }
 
   function toggleGridView(){
     if (passaroListViewStyle === "list"){
       setPassaroListViewStyle("grid");
-      setToggleGridViewIcon((<MaterialIcons name="grid-view" size={30} style={styles.vectorIcon}/>));
+      setToggleGridViewIcon("grid-view");
     }
     else if (passaroListViewStyle === "grid"){
       setPassaroListViewStyle("list");
-      setToggleGridViewIcon((<MaterialIcons name="list" size={25} style={styles.vectorIcon}/>));
+      setToggleGridViewIcon("list");
     }
   }
 
@@ -272,6 +256,23 @@ const Passaros = () => {
   }
 
   useEffect(() => {
+    if (passaroListViewStyle === "list"){
+      setPassaroListView(<View>{passaroListViewItems}</View>);
+    }
+    else if (passaroListViewStyle === "grid"){
+      setPassaroListView(
+        <SimpleGrid
+          itemDimension={130}
+          maxItemsPerRow={2}
+          spacing={10}
+          data={passaroListViewItems}
+          renderItem={({ item, index }) => (<View>{item}</View>)}
+        />
+      );
+    }
+  }, [passaroListViewItems]);
+
+  useEffect(() => {
     const theme = Appearance.getColorScheme();
     if (theme === "light"){
       setStyles(lightTheme);
@@ -279,7 +280,18 @@ const Passaros = () => {
     else {
       setStyles(darkTheme);
     }
+
+    Appearance.addChangeListener(() => {
+      const theme = Appearance.getColorScheme();
+      if (theme === "light"){
+        setStyles(lightTheme);
+      }
+      else {
+        setStyles(darkTheme);
+      }
+    });
   }, []);
+
 
   useEffect(() => {
     updatePassaroList();
@@ -371,14 +383,14 @@ const Passaros = () => {
               style={styles.sortByButton}
               onPress={toggleSortByFavorite}
             >
-              {sortByFavoriteIcon}
+              <Ionicons name={sortByFavoriteIcon} size={30} style={styles.vectorIcon}/>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.sortByButton}
               onPress={toggleAscending}
             >
-              {sortByAscendingIcon}
+              <Ionicons name={sortByAscendingIcon} size={30} style={styles.vectorIcon}/>
             </TouchableOpacity>
 
             <SelectPopup
@@ -403,13 +415,14 @@ const Passaros = () => {
               style={styles.sortByButton}
               onPress={toggleGridView}
             >
-              {toggleGridViewIcon}
+              <MaterialIcons name={toggleGridViewIcon} size={30} style={styles.vectorIcon}/>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
 
+
         <ScrollView style={styles.listScrollView}>
-          {passaroListView}
+          {isLoading ? <Load /> : passaroListView}
         </ScrollView>
       </ScrollView>
     </View>

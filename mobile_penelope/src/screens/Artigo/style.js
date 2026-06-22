@@ -10,10 +10,12 @@ function setThemeColors(theme){
     var header = lightColors.header;
     var headerFontColor = "#081510";
     var fontColor = lightColors.fontColor;
-    var carouselContainerBackground = "#505550";
+    var carouselContainerBackground = "#506550";
     var carouselPaginationBar = "#1d4d3b";
     var artigoInfoColor = "#c1f8d5";
     var boldFontColor = "#0f3024";
+    var cantoPlayerColor = "#a1e8b9";
+    var avistamentosInnerContainerColor = "#e1f8e5";
   }
   // Dark
   else {
@@ -25,6 +27,8 @@ function setThemeColors(theme){
     var carouselPaginationBar = "#151617";
     var artigoInfoColor = "#0f1011";
     var boldFontColor = "#20b655";
+    var cantoPlayerColor = "#31403f";
+    var avistamentosInnerContainerColor = "#31403f";
   }
 
   return StyleSheet.create({
@@ -102,7 +106,7 @@ function setThemeColors(theme){
 
     artigoInfoContainer:{
       width: "100%",
-      height: 200,
+      minHeight: 200,
       backgroundColor: artigoInfoColor,
       padding: 15,
       paddingTop: 18,
@@ -121,12 +125,14 @@ function setThemeColors(theme){
       fontSize: 35,
       fontWeight: "bold",
       color: boldFontColor,
+      textWrap: "stable",
     },
 
     artigoNomeBinomial:{
       fontSize: 20,
       fontStyle: "italic",
       color: fontColor,
+      marginBottom: 10,
     },
 
     artigoEnvergadura:{
@@ -192,9 +198,150 @@ function setThemeColors(theme){
     },
 
     artigoCantoContainer:{
+      padding: 15,
     },
 
-    artigoMapaContainer:{
+    artigoCantoTitleContainer:{
+      alignItems: "center",
+      flexDirection: "row",
+    },
+
+    ouvirCantoIcon:{
+      textAlign: "center",
+      color: boldFontColor,
+      fontWeight: "bold",
+      fontSize: 40,
+    },
+
+    cantoPlayer:{
+      display: "flex",
+      flexDirection: "row",
+      width: "100%",
+      height: 60,
+      backgroundColor: cantoPlayerColor,
+      borderRadius: 20,
+      marginTop: 15,
+      padding: 5,
+      alignItems: "center",
+      boxShadow: "3px 3px 20px #00000033",
+    },
+
+    playerButtonContainer:{
+      minWidth: 50,
+      width: "15%",
+      marginLeft: 12,
+    },
+
+    playerProgressBarContainer:{
+      width: "80%",
+    },
+
+    playerProgressBar:{
+      width: "100%",
+      height: 60,
+    },
+
+    artigoAvistamentosContainer:{
+      width: "100%",
+      minHeight: 300,
+      backgroundColor: artigoInfoColor,
+      padding: 15,
+      paddingTop: 18,
+      borderTopWidth: 1,
+      borderColor: "#55555555",
+      display: "flex",
+      flexDirection: "column",
+      marginTop: 20,
+    },
+
+    artigoAvistamentosTitleContainer:{
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      width: "100%",
+      paddingRight: 25,
+    },
+
+    artigoAvistamentosTitle:{
+      color: boldFontColor,
+      fontWeight: "bold",
+      fontSize: 35,
+    },
+
+    artigoAvistamentosIcon:{
+      textAlign: "center",
+      color: boldFontColor,
+      fontWeight: "bold",
+      fontSize: 40,
+    },
+
+    artigoAvistamentosInnerContainer:{
+      width: "100%",
+      borderRadius: 20,
+      marginTop: 15,
+      backgroundColor: avistamentosInnerContainerColor,
+      padding: 10,
+      boxShadow: "3px 3px 20px #00000033",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+
+    avistamentosTotaisContainer:{
+      width: "75%",
+    },
+
+    gotoAvistamentosIconContainer:{
+      flexDirection: "row",
+      width: "10%",
+      minWidth: 80,
+      marginRight: 5,
+    },
+
+    gotoAvistamentosIcon:{
+      color: fontColor,
+      fontSize: 80,
+      alignSelf: "center",
+    },
+
+    avistamentosTotaisImagem:{
+      width: "100%",
+      height: 50,
+      backgroundColor: "#99ff9988",
+      borderRadius: 20,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 5,
+    },
+
+    avistamentosTotaisAudio:{
+      width: "100%",
+      height: 50,
+      backgroundColor: "#ff999988",
+      borderRadius: 20,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 5,
+    },
+
+    avistamentosTotaisVideo:{
+      width: "100%",
+      height: 50,
+      backgroundColor: "#9999ff88",
+      borderRadius: 20,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 5,
+    },
+
+    avistamentosTotaisIcon:{
+      fontSize: 28,
+      color: fontColor,
+    },
+
+    avistamentosTotais:{
+      fontSize: 28,
+      fontWeight: "bold",
+      color: fontColor,
     },
 
     vectorIcon:{

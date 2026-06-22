@@ -11,6 +11,7 @@ function send_artigo_data($passaro_id){
     global $mysqli;
 
     $img_dir = "files_penelope/img_passaro/";
+    $canto_dir = "files_penelope/canto/";
 
     class JsonClass{}
     $jsonObject = new JsonClass();
@@ -35,11 +36,29 @@ function send_artigo_data($passaro_id){
         img_passaro_order
         FROM img_passaro WHERE passaro_id = $passaro_id"
     );
+
     while($img_passaro_row  = $img_passaro_query ->fetch_assoc()){
         $img_passaro_filepath = $img_dir . $img_passaro_row["img_passaro_filepath"];
         $img_passaro_order = $img_passaro_row["img_passaro_order"];
         $img_passaro[$img_passaro_order] = $img_passaro_filepath;
     }
+
+    $canto_query = mysqli_query($mysqli, "SELECT canto_filepath FROM canto WHERE passaro_id = $passaro_id");
+    $canto_query = $canto_query->fetch_assoc();
+    $canto_filepath = $canto_dir . $canto_query["canto_filepath"];
+
+    // optimize this later
+    $avistamento_img_count_query = mysqli_query($mysqli, "SELECT COUNT(*) FROM avistamento_img WHERE passaro_id = $passaro_id");
+    $avistamento_img_count_query = $avistamento_img_count_query->fetch_assoc();
+    $avistamento_img_count = $avistamento_img_count_query["COUNT(*)"];
+
+    $avistamento_audio_count_query = mysqli_query($mysqli, "SELECT COUNT(*) FROM avistamento_audio WHERE passaro_id = $passaro_id");
+    $avistamento_audio_count_query = $avistamento_audio_count_query->fetch_assoc();
+    $avistamento_audio_count = $avistamento_audio_count_query["COUNT(*)"];
+
+    $avistamento_video_count_query = mysqli_query($mysqli, "SELECT COUNT(*) FROM avistamento_video WHERE passaro_id = $passaro_id");
+    $avistamento_video_count_query = $avistamento_video_count_query->fetch_assoc();
+    $avistamento_video_count = $avistamento_video_count_query["COUNT(*)"];
 
     $passaro_artigo = array(
         "nome_popular" => $nome_popular,
@@ -47,7 +66,11 @@ function send_artigo_data($passaro_id){
         "estado_conservacao" => $estado_conservacao,
         "passaro_descricao" => $passaro_descricao,
         "envergadura_cm" => $envergadura_cm,
-        "img_passaro" => $img_passaro
+        "img_passaro" => $img_passaro,
+        "canto_filepath" => $canto_filepath,
+        "avistamento_img_count" => $avistamento_img_count,
+        "avistamento_audio_count" => $avistamento_audio_count,
+        "avistamento_video_count" => $avistamento_video_count
     );
 
     if(!empty($passaro_artigo)){

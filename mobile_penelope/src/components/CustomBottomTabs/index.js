@@ -39,9 +39,19 @@ const CustomBottomTabs = ({ state }) => {
     if (theme === "light"){
       setStyles(lightTheme);
     }
-    else{
+    else {
       setStyles(darkTheme);
     }
+
+    Appearance.addChangeListener(() => {
+      const theme = Appearance.getColorScheme();
+      if (theme === "light"){
+        setStyles(lightTheme);
+      }
+      else {
+        setStyles(darkTheme);
+      }
+    });
   }, []);
 
   return (

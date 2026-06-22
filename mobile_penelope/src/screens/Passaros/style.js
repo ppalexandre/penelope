@@ -150,9 +150,11 @@ function setThemeColors(theme){
     },
 
     listNomeBinomialText:{
-      fontSize: 18,
+      fontSize: 17,
       color: fontColor,
+      textWrap: "nowrap",
       textOverflow: "ellipsis",
+      overflow: "hidden",
     },
 
     listEstadoConservacaoBadge:{
